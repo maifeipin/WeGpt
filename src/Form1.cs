@@ -44,8 +44,6 @@ namespace WEBGPT
             txtUrl.AutoCompleteCustomSource = autoCompleteCollection;
             txtUrl.AutoCompleteMode = AutoCompleteMode.Suggest;
             txtUrl.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            // ensure ComboBox allows manual input
-            try { txtUrl.DropDownStyle = ComboBoxStyle.DropDown; } catch { }
             LoadData();
 
             this.timer1.Interval =300*1000;
@@ -77,8 +75,6 @@ namespace WEBGPT
             while (reader.Read())
             {
                 autoCompleteCollection.Add(reader["url"].ToString());
-                // also add to ComboBox items so dropdown shows favorites
-                try { txtUrl.Items.Add(reader["url"].ToString()); } catch { }
             }
 
             reader.Close();
@@ -93,7 +89,7 @@ namespace WEBGPT
             cbNetRouter.DisplayMember = "serverName";
             cbNetRouter.ValueMember = "runcmd";
             cbNetRouter.DataSource = dt;
-            if (cbNetRouter.Items.Count>0) cbNetRouter.SelectedIndex = 0;
+            cbNetRouter.SelectedIndex = 0;
             cbNetRouter.Tag = dt;
         }
 
@@ -177,54 +173,17 @@ namespace WEBGPT
         {
             try
             {
-                // allow adding current webview url or manual input url
-                string urlToAdd = null;
-                if (webView21?.Source != null)
-                {
-                    urlToAdd = webView21.Source.AbsoluteUri;
-                }
-                else
-                {
-                    urlToAdd = txtUrl.Text.Trim();
-                }
-                if (string.IsNullOrEmpty(urlToAdd)) return;
-
-                string title = PageTitle == null ? (new Uri(urlToAdd)).Host : PageTitle;
-
-                // check if exists
-                string checkQuery = $"SELECT COUNT(1) FROM url WHERE url='{urlToAdd.Replace("'","''")}'";
-                SQLiteCommand chkCmd = new SQLiteCommand(checkQuery, connection);
-                object o = chkCmd.ExecuteScalar();
-                int exists = 0;
-                if (o != null && int.TryParse(o.ToString(), out exists) && exists > 0)
-                {
-                    MessageBox.Show("收藏已存在");
-                    return;
-                }
-
-                string query = $" INSERT INTO url(url, memo) VALUES ('{urlToAdd.Replace("'","''")}', '{title.Replace("'","''")}') ";
+                var m = webView21.Source;
+                if (m==null) return; 
+                string title = PageTitle == null ? m.Host : PageTitle;
+                string query = $" INSERT INTO url(url, memo) SELECT '{m.AbsoluteUri}', '{title}' WHERE NOT EXISTS (SELECT 1 FROM url WHERE url='{m.AbsoluteUri}') ";
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 if (connection.State != ConnectionState.Open) connection.Open();
                 cmd.ExecuteNonQuery();
-
-                // update memo just in case
-                query = $" \n\r UPDATE url set memo=  '{title.Replace("'","''")}' WHERE  url='{urlToAdd.Replace("'","''")}' ";
+                query = $" \n\r UPDATE url set memo=  '{title}' WHERE  url='{m.AbsoluteUri}' ";
                 cmd = new SQLiteCommand(query, connection);
                 if (connection.State != ConnectionState.Open) connection.Open();
                 cmd.ExecuteNonQuery();
-
-                // update UI lists
-                try
-                {
-                    if (!autoCompleteCollection.Contains(urlToAdd)) autoCompleteCollection.Add(urlToAdd);
-                }
-                catch { }
-                try
-                {
-                    if (!txtUrl.Items.Contains(urlToAdd)) txtUrl.Items.Add(urlToAdd);
-                }
-                catch { }
-
                 MessageBox.Show("添加成功！");
             }
             catch (Exception ex) 
@@ -340,19 +299,6 @@ namespace WEBGPT
                 }, cancellationTokenSource.Token);
             }
             catch (Exception ex) { }
-        }
-
-        private void txtUrl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // when user selects item from dropdown, navigate
-            try
-            {
-                string uri = txtUrl.SelectedItem?.ToString() ?? txtUrl.Text;
-                if (string.IsNullOrEmpty(uri)) return;
-                if (!uri.StartsWith("http")) uri = "https://" + uri;
-                if (webView21?.CoreWebView2 != null) webView21.CoreWebView2.Navigate(uri);
-            }
-            catch { }
         }
 
     }

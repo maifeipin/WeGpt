@@ -37,7 +37,7 @@
             this.btnAddFavorit = new System.Windows.Forms.Button();
             this.btnMngUrl = new System.Windows.Forms.Button();
             this.btnGoTo = new System.Windows.Forms.Button();
-            this.txtUrl = new System.Windows.Forms.ComboBox();
+            this.txtUrl = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -121,7 +121,6 @@
             // 
             // txtUrl
             // 
-            this.txtUrl.FormattingEnabled = true;
             this.txtUrl.Location = new System.Drawing.Point(57, 11);
             this.txtUrl.Name = "txtUrl";
             this.txtUrl.Size = new System.Drawing.Size(651, 25);
@@ -129,7 +128,6 @@
             this.txtUrl.Text = "https://chat.openai.com/";
             this.txtUrl.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.txtUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
-            this.txtUrl.SelectedIndexChanged += new System.EventHandler(this.txtUrl_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -180,7 +178,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnGoTo;
-        private System.Windows.Forms.ComboBox txtUrl;
+        private System.Windows.Forms.TextBox txtUrl;
         private System.Windows.Forms.Label label1;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
         private System.Windows.Forms.Button btnMngUrl;
