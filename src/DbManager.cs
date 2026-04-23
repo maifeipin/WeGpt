@@ -20,6 +20,7 @@ namespace WEBGPT
         public DbManager()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
         }
         public DbManager(SQLiteConnection _con) : this()
         {
@@ -47,13 +48,15 @@ namespace WEBGPT
             DataGridViewTextBoxColumn textColumn = new DataGridViewTextBoxColumn();
             textColumn.Name = "url";
             textColumn.HeaderText = "链接";
-            textColumn.DataPropertyName = "url";  
+            textColumn.DataPropertyName = "url";
+            textColumn.Width = 200;
             dataGridView1.Columns.Add(textColumn);
             
             DataGridViewTextBoxColumn memoColumn = new DataGridViewTextBoxColumn();
             memoColumn.Name = "memo";
             memoColumn.HeaderText = "备注";
             memoColumn.DataPropertyName = "memo";
+            memoColumn.Width = 200;
             dataGridView1.Columns.Add(memoColumn);
 
              
@@ -74,7 +77,7 @@ namespace WEBGPT
             DataGridViewLinkColumn linkColumn = new DataGridViewLinkColumn();
             linkColumn.Name = "detail";
             linkColumn.HeaderText = "操作";
-            linkColumn.Text = "详情";
+            linkColumn.Text = "打开";
             linkColumn.UseColumnTextForLinkValue = true;
             dataGridView1.Columns.Add(linkColumn);
 
@@ -88,17 +91,21 @@ namespace WEBGPT
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == dataGridView1.Columns["del"].Index && e.RowIndex >= 0)
-            { 
-                DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
-                string id = selectedRow.Cells["id"].Value.ToString();
+            {
+                var urlCaption = dataGridView1.Rows[ e.RowIndex].Cells[5].Value as string;
+                if (MessageBox.Show($"确认要删除【{urlCaption}】,不是误删？", "真删", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
+                    string id = selectedRow.Cells["id"].Value.ToString();
 
-                string sql = " delete from url where id=" + id;
+                    string sql = " delete from url where id=" + id;
 
-                SQLiteCommand cmd = new SQLiteCommand(sql, connection);
-                if (connection.State != ConnectionState.Open) connection.Open();
-                int exec  = cmd.ExecuteNonQuery();
-                if (exec == 1)
-                    MessageBox.Show($"删除成功");
+                    SQLiteCommand cmd = new SQLiteCommand(sql, connection);
+                    if (connection.State != ConnectionState.Open) connection.Open();
+                    int exec = cmd.ExecuteNonQuery();
+                    if (exec == 1)
+                        MessageBox.Show($"删除成功");
+                }
             }
             if (e.ColumnIndex == dataGridView1.Columns["detail"].Index && e.RowIndex >= 0)
             {
