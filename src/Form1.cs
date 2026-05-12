@@ -30,6 +30,8 @@ namespace WEBGPT
 
 
         private string clientproxy { get; set; } = "--proxy-server=socks5://127.0.0.1:18988";
+        private bool _isDarkTheme = false;
+        bool IsExportCookie = false;
         public Form1()
         {
             InitializeComponent();
@@ -42,7 +44,6 @@ namespace WEBGPT
         {
             connection = new SQLiteConnection("Data Source=ai.db;Version=3;");
             connection.Open();
-
             LoadData();
 
             this.timer1.Interval = 300 * 1000;
@@ -78,9 +79,9 @@ namespace WEBGPT
 
             cbNetRouter.DisplayMember = "serverName";
             cbNetRouter.ValueMember = "runcmd";
+            cbNetRouter.Tag = dt;
             cbNetRouter.DataSource = dt;
             cbNetRouter.SelectedIndex = 0;
-            cbNetRouter.Tag = dt;
         }
 
         async void InitializeAsync()
@@ -323,9 +324,41 @@ namespace WEBGPT
         }
 
 
-        private void btnDebug_Click(object sender, EventArgs e)
+        private void btnTools_Click(object sender, EventArgs e)
+        {
+            contextMenuTools.Show(btnTools, new Point(0, btnTools.Height));
+        }
+
+        private void tsmiDebug_Click(object sender, EventArgs e)
         {
             CreateNoWindow = !CreateNoWindow;
+        }
+
+        private async void tsmiToggleTheme_Click(object sender, EventArgs e)
+        {
+            _isDarkTheme = !_isDarkTheme;
+            tsmiToggleTheme.Checked = _isDarkTheme;
+            if (webView21?.CoreWebView2 != null)
+            {
+                if (_isDarkTheme)
+                    await webView21.CoreWebView2.ExecuteScriptAsync("document.documentElement.style.filter='invert(1) hue-rotate(180deg)'");
+                else
+                    await webView21.CoreWebView2.ExecuteScriptAsync("document.documentElement.style.filter=''");
+            }
+        }
+
+        private void tsmiExportCookie_Click(object sender, EventArgs e)
+        {
+            IsExportCookie = !IsExportCookie;
+            tsmiExportCookie.Checked = IsExportCookie;
+            btnGoTo_Click(sender, e);
+        }
+
+        private void tsmiSettings_Click(object sender, EventArgs e)
+        {
+            ProxyManager proxy = new ProxyManager();
+            proxy.connection = connection;
+            proxy.Show();
         }
         private async void timer1_Tick(object sender, EventArgs e)
         {
@@ -524,12 +557,6 @@ namespace WEBGPT
                 return new Bitmap(stream);
             }
         }
-        bool IsExportCookie = false;
-        private void btnExportCookie_Click(object sender, EventArgs e)
-        {
-            IsExportCookie = !IsExportCookie;
-            btnGoTo_Click(sender, e);
-        }
 
         private void lblBetterIP_Click(object sender, EventArgs e)
         {
@@ -547,12 +574,6 @@ namespace WEBGPT
             }
         }
 
-        private void btnProxyManger_Click(object sender, EventArgs e)
-        {
-            ProxyManager proxy = new ProxyManager( );
-            proxy.connection = connection;
-            proxy.Show();
-        }
     }
 
 }

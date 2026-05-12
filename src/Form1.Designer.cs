@@ -1,4 +1,4 @@
-﻿namespace WEBGPT
+﻿﻿namespace WEBGPT
 {
     partial class Form1
     {
@@ -41,15 +41,16 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnProxyManger = new System.Windows.Forms.Button();
             this.lblBetterIP = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnDebug = new System.Windows.Forms.Button();
-            this.btnExportCookie = new System.Windows.Forms.Button();
+            this.btnTools = new System.Windows.Forms.Button();
+            this.contextMenuTools = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiDebug = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiToggleTheme = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiExportCookie = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCapture
@@ -186,9 +187,7 @@
             this.tableLayoutPanel2.Controls.Add(this.btnGoTo, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnAddFavorit, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnMngUrl, 4, 0);
-            this.tableLayoutPanel2.Controls.Add(this.panel2, 10, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnProxyManger, 9, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnExportCookie, 8, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnTools, 10, 0);
             this.tableLayoutPanel2.Controls.Add(this.cbNetRouter, 5, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
@@ -198,17 +197,55 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1359, 26);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
-            // btnProxyManger
+            // btnTools
             // 
-            this.btnProxyManger.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnProxyManger.Location = new System.Drawing.Point(1204, 0);
-            this.btnProxyManger.Margin = new System.Windows.Forms.Padding(0);
-            this.btnProxyManger.Name = "btnProxyManger";
-            this.btnProxyManger.Size = new System.Drawing.Size(100, 26);
-            this.btnProxyManger.TabIndex = 15;
-            this.btnProxyManger.Text = "设置";
-            this.btnProxyManger.UseVisualStyleBackColor = true;
-            this.btnProxyManger.Click += new System.EventHandler(this.btnProxyManger_Click);
+            this.btnTools.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTools.Location = new System.Drawing.Point(1304, 0);
+            this.btnTools.Margin = new System.Windows.Forms.Padding(0);
+            this.btnTools.Name = "btnTools";
+            this.btnTools.Size = new System.Drawing.Size(55, 26);
+            this.btnTools.TabIndex = 10;
+            this.btnTools.Text = "工具";
+            this.btnTools.UseVisualStyleBackColor = true;
+            this.btnTools.Click += new System.EventHandler(this.btnTools_Click);
+            // 
+            // contextMenuTools
+            // 
+            this.contextMenuTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDebug,
+            this.tsmiToggleTheme,
+            this.tsmiExportCookie,
+            this.tsmiSettings});
+            this.contextMenuTools.Name = "contextMenuTools";
+            this.contextMenuTools.Size = new System.Drawing.Size(150, 92);
+            // 
+            // tsmiDebug
+            // 
+            this.tsmiDebug.Name = "tsmiDebug";
+            this.tsmiDebug.Size = new System.Drawing.Size(149, 22);
+            this.tsmiDebug.Text = "Debug";
+            this.tsmiDebug.Click += new System.EventHandler(this.tsmiDebug_Click);
+            // 
+            // tsmiToggleTheme
+            // 
+            this.tsmiToggleTheme.Name = "tsmiToggleTheme";
+            this.tsmiToggleTheme.Size = new System.Drawing.Size(149, 22);
+            this.tsmiToggleTheme.Text = "切换主题";
+            this.tsmiToggleTheme.Click += new System.EventHandler(this.tsmiToggleTheme_Click);
+            // 
+            // tsmiExportCookie
+            // 
+            this.tsmiExportCookie.Name = "tsmiExportCookie";
+            this.tsmiExportCookie.Size = new System.Drawing.Size(149, 22);
+            this.tsmiExportCookie.Text = "导出 Cookie";
+            this.tsmiExportCookie.Click += new System.EventHandler(this.tsmiExportCookie_Click);
+            // 
+            // tsmiSettings
+            // 
+            this.tsmiSettings.Name = "tsmiSettings";
+            this.tsmiSettings.Size = new System.Drawing.Size(149, 22);
+            this.tsmiSettings.Text = "设置";
+            this.tsmiSettings.Click += new System.EventHandler(this.tsmiSettings_Click);
             // 
             // lblBetterIP
             // 
@@ -221,42 +258,6 @@
             this.lblBetterIP.Text = "preping";
             this.lblBetterIP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblBetterIP.Click += new System.EventHandler(this.lblBetterIP_Click);
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.btnDebug);
-            this.panel2.Location = new System.Drawing.Point(1304, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(55, 26);
-            this.panel2.TabIndex = 10;
-            // 
-            // btnDebug
-            // 
-            this.btnDebug.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDebug.Location = new System.Drawing.Point(9, 0);
-            this.btnDebug.Margin = new System.Windows.Forms.Padding(0);
-            this.btnDebug.Name = "btnDebug";
-            this.btnDebug.Size = new System.Drawing.Size(46, 26);
-            this.btnDebug.TabIndex = 9;
-            this.btnDebug.Text = "dbg";
-            this.btnDebug.UseVisualStyleBackColor = true;
-            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
-            // 
-            // btnExportCookie
-            // 
-            this.btnExportCookie.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnExportCookie.Location = new System.Drawing.Point(1080, 0);
-            this.btnExportCookie.Margin = new System.Windows.Forms.Padding(0);
-            this.btnExportCookie.Name = "btnExportCookie";
-            this.btnExportCookie.Size = new System.Drawing.Size(114, 26);
-            this.btnExportCookie.TabIndex = 11;
-            this.btnExportCookie.Text = "导出 Cookie";
-            this.btnExportCookie.UseVisualStyleBackColor = true;
-            this.btnExportCookie.Click += new System.EventHandler(this.btnExportCookie_Click);
             // 
             // Form1
             // 
@@ -272,7 +273,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -289,11 +289,13 @@
         private System.Windows.Forms.Button btnCapture;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button btnDebug;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnExportCookie;
+        private System.Windows.Forms.Button btnTools;
+        private System.Windows.Forms.ContextMenuStrip contextMenuTools;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDebug;
+        private System.Windows.Forms.ToolStripMenuItem tsmiToggleTheme;
+        private System.Windows.Forms.ToolStripMenuItem tsmiExportCookie;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSettings;
         private System.Windows.Forms.Label lblBetterIP;
-        private System.Windows.Forms.Button btnProxyManger;
     }
 }
 
